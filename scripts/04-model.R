@@ -34,4 +34,25 @@ saveRDS(
   file = "models/first_model.rds"
 )
 
+sim_run_data_first_model_rstanarm <-
+  stan_glm(
+    formula = marathon_time ~ five_km_time + was_raining,
+    data = sim_run_data,
+    family = gaussian(),
+    prior = normal(location = 0, scale = 2.5),
+    prior_intercept = normal(location = 0, scale = 2.5),
+    prior_aux = exponential(rate = 1),
+    seed = 853
+  )
 
+beep()
+
+saveRDS(
+  sim_run_data_first_model_rstanarm,
+  file = "sim_run_data_first_model_rstanarm.rds"
+)
+
+sim_run_data_first_model_rstanarm <-
+  readRDS(file = "sim_run_data_first_model_rstanarm.rds")
+
+prior_summary(sim_run_data_first_model_rstanarm)
